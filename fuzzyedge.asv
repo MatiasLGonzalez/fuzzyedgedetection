@@ -1,0 +1,71 @@
+function O=fuzzyedge(name)
+% fuzzyedge(imname)
+% 
+% Proporciona una imagen en escala de grises con bordes detectados
+% utilizando un sistema de inferencia difuso propuesto por Jaideep Kaur - 
+% Poonam Sethi.
+% (https://research.ijcaonline.org/volume77/number15/pxc3891351.pdf)
+% 
+% Uso
+% Toma como entrada el nombre de una imagen RGB que se encuentre en el
+% Directorio de trabajo, su salida es una imagen en escala de grises.
+% Se debe proporcionar el archivo .fis del sistema de inferencia difuso con
+% el nombre ''kaur_sethi.fis'.
+
+    % Se carga el sistema de inferencia difuso
+    fis=readfis('kaur_sethi.fis');
+    % Lectura de la imagen
+    A=imread(name);
+    % Conversión de la imagen a escala de grises
+    A=rgb2gray(A);
+    [row, column] = size(A);
+    figure;
+    imshow(A);
+    A = double(A);
+
+    % SE CREAN LOS GRADIENTES Gx Y Gy
+    Gx =[-1 1];
+    Gy = Gx(:); %CALCULA LA TRANSPUESTA
+    
+    % CONVOLUCIONA G con Gx, USANDO LA FUNCION conv2, PARA OBTENER LA MATRIZ
+    % QUE CONTIENE LOS GRADIENTES DEL eje x DE I
+    Ax = double(uint8(255 * mat2gray(conv2(A,Gx,'same'))));
+    % CONVOLUCIONA G con Gy, USANDO LA FUNCION conv2, PARA OBTENER LA MATRIZ QUE
+    % CONTIENE LOS GRADIENTES DEL eje y DE I
+    Ay = double(uint8(255 * mat2gray(conv2(A,Gy,'same'))));
+
+
+    % Matriz de salida
+    O = zeros(row,column,"double");
+    % SE CREA UNA MATRIZ QUE MOSTRARA LA IMAGEN DE SALIDA
+    Ox = zeros(row,column,"double");
+    Oy = zeros(row,column,"double");
+
+    for r=1:row-1
+      for c=1:column-1
+        % Vector temporal que representa la ventana 2*2 [P1 P2 P3 P4]
+        T = [Ax(r,c:c+1) A(r+1,c:c+1)];
+        % Se evalua usando el sistema de inferencia y se asigna el
+        % resultado al pixel P1 de la matriz de salida.
+        Ox(r,c) = evalfis(fis, T);
+        % Vector temporal que representa la ventana 2*2 [P1 P2 P3 P4]
+        T = [Ay(r,c:c+1) A(r+1,c:c+1)];
+        % Se evalua usando el sistema de inferencia y se asigna el
+        % resultado al pixel P1 de la matriz de salida.
+        Oy(r,c) = evalfis(fis, T);
+      end
+    end
+    
+    O = abs(Oy - Ox);
+    O = uint8(O);
+    figure;
+    imshow(A);
+    figure;
+    imshow(Ax);
+        figure;
+    imshow(Ax);
+    figure;
+    imshow(A);
+    figure;
+    imshow(O);
+end

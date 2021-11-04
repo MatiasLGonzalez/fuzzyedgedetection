@@ -1,0 +1,61 @@
+[System]
+Name='kaur_sethi'
+Type='mamdani'
+Version=2.0
+NumInputs=4
+NumOutputs=1
+NumRules=7
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='P1'
+Range=[-800 800]
+NumMFs=3
+MF1='LOW':'gaussmf',[43 0]
+MF2='MEDIUM':'gaussmf',[43 127]
+MF3='HIGH':'gaussmf',[43 255]
+
+[Input2]
+Name='P2'
+Range=[-800 800]
+NumMFs=3
+MF1='LOW':'gaussmf',[43 0]
+MF2='MEDIUM':'gaussmf',[43 127]
+MF3='HIGH':'gaussmf',[43 255]
+
+[Input3]
+Name='P3'
+Range=[-800 800]
+NumMFs=3
+MF1='LOW':'gaussmf',[43 0]
+MF2='MEDIUM':'gaussmf',[43 127]
+MF3='HIGH':'gaussmf',[43 255]
+
+[Input4]
+Name='P4'
+Range=[0 255]
+NumMFs=3
+MF1='LOW':'gaussmf',[43 0]
+MF2='MEDIUM':'gaussmf',[43 127]
+MF3='HIGH':'gaussmf',[43 255]
+
+[Output1]
+Name='P4_out'
+Range=[0 255]
+NumMFs=3
+MF1='LOW':'gaussmf',[43 0]
+MF2='MEDIUM':'gaussmf',[43 127]
+MF3='HIGH':'gaussmf',[43 255]
+
+[Rules]
+1 1 0 0, 1 (1) : 1
+2 2 0 0, 3 (1) : 1
+3 3 0 0, 3 (1) : 1
+2 0 1 0, 3 (1) : 1
+0 2 1 0, 3 (1) : 1
+0 2 0 1, 1 (1) : 1
+2 0 0 1, 1 (1) : 1
