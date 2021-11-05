@@ -89,6 +89,7 @@ y el sistema posee las siguiente propiedades:
 #### Funciones de memebresías
 
 ![](1.jpg)
+
 ![](2.jpg)
 
 
